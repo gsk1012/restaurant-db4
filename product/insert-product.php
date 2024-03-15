@@ -1,5 +1,6 @@
 <?php
 include_once 'product.php';
+include_once '../navbar/navbar.php';
 $product = new Product($myDb);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -9,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo 'Error: ' . $e->getMessage();
     }
 }
+
+$products = $product->getAlleProducten();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,11 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous" defer></script>
-    <title>Document</title>
+    <title>Producten</title>
     <style>
-        body {
-            padding: 1rem;
-        }
         form {
             width: 50%;
         }
@@ -30,6 +30,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 100px;
         }
 
+        form .form-control   {
+            border: 1px solid gray;
+        }
+
+        form {
+            width: 50%;
+            margin: auto;
+        }
+        .btn {
+            width: 100px;
+        }
         form .form-control   {
             border: 1px solid gray;
         }
@@ -47,9 +58,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </tr>
         </thead>
         <tbody>
+            <?php foreach ($products as $product) : ?>
+                <tr>
+                    <td><?php echo $product['product_id']; ?></td>
+                    <td><?php echo $product['naam']; ?></td>
+                    <td><?php echo $product['prijs']; ?></td>
+                    <td><?php echo $product['beschrijving']; ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table><br><br>
-    <h1>Product toevoegen</h1>
+    <h1 style="text-align: center;">Product toevoegen</h1>
     <form action="" method="post">
         <label for="naam" style="font-size: 25px;">Naam</label><br>
         <input class="form-control" type="text" name="naam"><br>

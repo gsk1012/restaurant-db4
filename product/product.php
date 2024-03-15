@@ -12,7 +12,14 @@ class Product {
         return $this->dbh->execute("INSERT INTO product (naam, prijs, beschrijving)
         VALUES (?,?,?)", [$naam, $prijs, $beschrijving]);
     }
-}
 
+    public function getAlleProducten() {
+        $stmt = $this->dbh->execute("SELECT * FROM product");
+
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $products;
+    }
+}
 
 ?>

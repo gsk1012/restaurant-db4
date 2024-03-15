@@ -12,6 +12,15 @@ class Klant {
         return $this->dbh->execute("INSERT INTO klant (naam, password, email)
         VALUES (?,?,?)", [$naam, $password, $email]);
     }
+
+    public function getAlleKlanten() {
+        $stmt = $this->dbh->execute("SELECT * FROM klant");
+
+        // Haal de resultaten op
+        $klanten = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $klanten;
+    }
 }
 
 

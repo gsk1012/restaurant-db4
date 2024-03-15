@@ -12,6 +12,12 @@ class Tafel {
         return $this->dbh->execute("INSERT INTO tafel (tafelnummer)
         VALUES (?)", [$tafelnummer]);
     }
+
+    public function getAlleTafels() {
+        $stmt = $this->dbh->execute("SELECT * FROM tafel");
+        $tafels = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $tafels;
+    }
 }
 
 

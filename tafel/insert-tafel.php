@@ -1,5 +1,6 @@
 <?php
 include_once 'tafel.php';
+include_once '../navbar/navbar.php';
 $tafel = new Tafel($myDb);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -9,6 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo 'Error: ' . $e->getMessage();
     }
 }
+
+$tafels = $tafel->getAlleTafels();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,9 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous" defer></script>
     <title>Document</title>
     <style>
-        body {
-            padding: 1rem;
-        }
         form {
             width: 50%;
         }
@@ -33,9 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         form .form-control   {
             border: 1px solid gray;
         }
+        form {
+            width: 50%;
+            margin: auto;
+        }
+        .btn {
+            width: 100px;
+        }
+        form .form-control   {
+            border: 1px solid gray;
+        }
     </style>
 </head>
-<body>
+<body><br>
     <h1>Tafel Overzicht</h1>
     <table class="table table-bordered">
         <thead>
@@ -45,9 +55,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </tr>
         </thead>
         <tbody>
+            <?php foreach ($tafels as $tafel) : ?>
+                <tr>
+                    <td><?php echo $tafel['tafel_id']; ?></td>
+                    <td><?php echo $tafel['tafelnummer']; ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table><br><br>
-    <h1>Tafel toevoegen</h1>
+    <h1 style="text-align: center;">Tafel toevoegen</h1>
     <form action="" method="post">
         <label for="tafelnummer" style="font-size: 25px;">Tafelnummer</label><br>
         <input class="form-control" type="number" name="tafelnummer"><br>
