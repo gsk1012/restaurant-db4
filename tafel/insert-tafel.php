@@ -52,6 +52,7 @@ $tafels = $tafel->getAlleTafels();
             <tr>
                 <th scope="col">Tafel ID</th>
                 <th scope="col">Tafelnummer</th>
+                <th scope="col">Beschikbaarheid</th>
             </tr>
         </thead>
         <tbody>
@@ -59,6 +60,7 @@ $tafels = $tafel->getAlleTafels();
                 <tr>
                     <td><?php echo $tafel['tafel_id']; ?></td>
                     <td><?php echo $tafel['tafelnummer']; ?></td>
+                    <td><?php echo $tafel['status']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

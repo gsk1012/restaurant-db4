@@ -18,9 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             throw new Exception('Ongeldige tafel_id');
         }
 
-        // Controleer of er een reservering bestaat voor de geselecteerde tafel
         if (!$bestelling->controleerReservering($tafel_id)) {
-            throw new Exception('Er is geen reservering gevonden voor deze tafel');
+            throw new Exception('<h1 style= "color:red; text-align:center">Er is geen reservering gevonden voor geselecteerde tafel</h1>');
         }
 
         $product_id = $_POST['product'];
@@ -97,11 +96,6 @@ $bestellingen = $bestelling->getAlleBestellingen();
     <br>
     <h1 style="text-align: center;">Plaats een bestelling</h1>
 
-    <!-- Voeg hier de foutmelding toe -->
-    <div id="error-message" style="display: none; text-align: center; color: red;">
-        <h3>Er is geen reservering gevonden voor deze tafel. Selecteer een andere tafel of maak een reservering.</h3>
-    </div>
-
     <form action="" method="post" onsubmit="return validateForm()">
 
         <label for="tafel" style="font-size: 25px;">Tafel</label>
@@ -129,29 +123,27 @@ $bestellingen = $bestelling->getAlleBestellingen();
         <input class="btn btn-primary" name="submit" type="submit" value="Toevoegen">
     </form>
     <div id="success-message" style="display: none; text-align: center;">
-        <!-- <h1 style="color: green;">Bestelling succesvol toegevoegd!</h1> -->
+        <h1 style="color: green;">Bestelling succesvol geplaatst</h1>
     </div>
+
     <script>
         function validateForm() {
             var selectedTafel = document.getElementById('tafel').value;
             var errorMessage = document.getElementById('error-message');
 
-            // Controleer of een tafel is geselecteerd
             if (selectedTafel === "") {
                 alert("Selecteer alstublieft een tafel.");
                 return false;
             }
 
-            // Controleer of er een reservering is voor de geselecteerde tafel
-            if (errorMessage.style.display === 'block') {
-                alert("Er is geen reservering gevonden voor deze tafel. Selecteer een andere tafel of maak een reservering.");
-                return false;
-            }
+            // if (errorMessage.style.display === 'block') {
+            //     alert("Er is geen reservering gevonden voor deze tafel. Selecteer een andere tafel of maak een reservering.");
+            //     return false;
+            // }
 
-            return true;
-        }
+            // return true;
 
-        document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener("DOMContentLoaded", function() {
             const successMessage = document.getElementById('success-message');
             if (successMessage) {
                 successMessage.style.display = 'none';
@@ -165,6 +157,8 @@ $bestellingen = $bestelling->getAlleBestellingen();
                 <?php endif; ?>
             }
         });
+        }
+
     </script>
 </body>
 </html>

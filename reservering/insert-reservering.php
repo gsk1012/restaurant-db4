@@ -110,7 +110,7 @@ $reserveringen = $resevering->getAlleReserveringen();
         <input class="btn btn-primary" name="submit" type="submit" value="Toevoegen">
     </form>
     <div id="success-message" style="display: none; text-align: center;">
-        <h1 style="color: green;">Reservering succesvol toegevoegd!</h1>
+        <h1 style="color: green;">Reservering succesvol geplaatst</h1>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

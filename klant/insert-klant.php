@@ -9,6 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (Exception $e) {
         echo 'Error: ' . $e->getMessage();
     }
+
+    try {
+        $klant_id = $_POST['delete_klant_id'];
+        $klant->deleteKlant($klant_id);
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    } catch (Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+    }
 }
 
 $klanten = $klant->getAlleKlanten();
@@ -48,13 +57,14 @@ $klanten = $klant->getAlleKlanten();
     </style>
 </head>
 <body>
-    <h1>Klanten Overzicht</h1>
+<h1>Klanten Overzicht</h1>
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th scope="col">Klant ID</th>
                 <th scope="col">Naam</th>
                 <th scope="col">Email</th>
+                <th scope="col">Actie</th>
             </tr>
         </thead>
         <tbody>
@@ -63,10 +73,17 @@ $klanten = $klant->getAlleKlanten();
                     <td><?php echo $klant['klant_id']; ?></td>
                     <td><?php echo $klant['naam']; ?></td>
                     <td><?php echo $klant['email']; ?></td>
+                    <td>
+                        <!-- Verwijder knop met bevestiging -->
+                        <form action="" method="post">
+                            <input type="hidden" name="delete_klant_id" value="<?php echo $klant['klant_id']; ?>">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je deze klant wilt verwijderen?')">Verwijderen</button>
+                        </form>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
-    </table><br><br>
+    </table>
     <h1 style="text-align: center;">Klant toevoegen</h1>
     <form action="" method="post">
         <label for="naam" style="font-size: 25px;">Naam</label><br>
@@ -76,7 +93,8 @@ $klanten = $klant->getAlleKlanten();
         <label for="password" style="font-size: 25px;">Wachtwoord</label>
         <input class="form-control" type="password" name="password"><br>
         <input class="btn btn-primary" name="submit" type="submit" value="Toevoegen">
-    </form><br>
+    </form>
+
     <div id="success-message" style="display: none; text-align: center;">
         <h1 style="color: green;">Klant succesvol toegevoegd!</h1>
     </div>

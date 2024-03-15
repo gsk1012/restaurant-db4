@@ -18,6 +18,10 @@ class DB {
         $stmt->execute($placeholders);
         return $stmt;
     }
+
+    public function lastInsertId() {
+        return $this->dbh->lastInsertId();
+    }
 }
 $myDb = new DB('pdo_4');
 ?>

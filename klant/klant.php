@@ -15,11 +15,12 @@ class Klant {
 
     public function getAlleKlanten() {
         $stmt = $this->dbh->execute("SELECT * FROM klant");
-
-        // Haal de resultaten op
         $klanten = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         return $klanten;
+    }
+
+    public function deleteKlant($klant_id) {
+        return $this->dbh->execute("DELETE FROM klant WHERE klant_id = ?", [$klant_id]);
     }
 }
 

@@ -9,6 +9,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (Exception $e) {
         echo 'Error: ' . $e->getMessage();
     }
+
+    try {
+        $product_id = $_POST['delete_product_id'];
+        $product->deleteProduct($product_id);
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    } catch (Exception $e) {
+        echo 'Error: ' . $e->getMessage();
+    }
 }
 
 $products = $product->getAlleProducten();
@@ -47,7 +56,7 @@ $products = $product->getAlleProducten();
     </style>
 </head>
 <body>
-    <h1>Producten Overzicht</h1>
+<h1>Producten Overzicht</h1>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -55,6 +64,7 @@ $products = $product->getAlleProducten();
                 <th scope="col">Naam</th>
                 <th scope="col">Prijs</th>
                 <th scope="col">Beschrijving</th>
+                <th scope="col">Actie</th>
             </tr>
         </thead>
         <tbody>
@@ -64,6 +74,12 @@ $products = $product->getAlleProducten();
                     <td><?php echo $product['naam']; ?></td>
                     <td><?php echo $product['prijs']; ?></td>
                     <td><?php echo $product['beschrijving']; ?></td>
+                    <td>
+                        <form action="" method="post">
+                            <input type="hidden" name="delete_product_id" value="<?php echo $product['product_id']; ?>">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je dit product wilt verwijderen?')">Verwijderen</button>
+                        </form>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

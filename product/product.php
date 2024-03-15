@@ -15,10 +15,12 @@ class Product {
 
     public function getAlleProducten() {
         $stmt = $this->dbh->execute("SELECT * FROM product");
-
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         return $products;
+    }
+
+    public function deleteProduct($product_id) {
+        return $this->dbh->execute("DELETE FROM product WHERE product_id = ?", [$product_id]);
     }
 }
 
