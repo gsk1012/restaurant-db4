@@ -1,17 +1,21 @@
 <?php
 include_once 'product.php';
 include_once '../navbar/navbar.php';
-include_once '../product/view-product.php';
 $product = new Product($myDb);
+
+$product_id = $_GET['id'];
+$huidige_product = $product->getProductById($product_id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
-        $product->insertProduct($_POST['naam'], $_POST['prijs'], $_POST['beschrijving']);
+        $product->editProduct($product_id, $_POST['naam'], $_POST['prijs'], $_POST['beschrijving']);
+        header('Location: insert-product.php');
     } catch (Exception $e) {
         echo 'Error: ' . $e->getMessage();
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,36 +50,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Product toevoegen</h1>
+    <h1 style="text-align: center;">Product bewerken</h1>
     <form action="" method="post">
-        <label for="naam" style="font-size: 25px;">Naam</label><br>
-        <input class="form-control" type="text" name="naam"><br>
+        <label for="naam" style="font-size: 25px; ">Naam</label><br>
+        <input class="form-control" type="text" name="naam" value="<?php echo $huidige_product['naam']; ?>"><br>
         <label for="prijs" style="font-size: 25px;">Prijs</label>
-        <input class="form-control" type="number" name="prijs"><br>
+        <input class="form-control" type="number" name="prijs" value="<?php echo $huidige_product['prijs']; ?>"><br>
         <div class="form-floating">
-            <textarea name="beschrijving" class="form-control" placeholder="" id="floatingTextarea"></textarea>
+        <textarea name="beschrijving" class="form-control" id="floatingTextarea"><?php echo $huidige_product['beschrijving']; ?></textarea>
             <label for="floatingTextarea">Beschrijving</label>
         </div><br>
-        <input class="btn btn-primary" name="submit" type="submit" value="Toevoegen">
+        <input class="btn btn-primary" name="submit" type="submit" value="Bewerken">
     </form><br>
-    <div id="success-message" style="display: none; text-align: center;">
-        <h1 style="color: green;">Product succesvol toegevoegd!</h1>
-    </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const successMessage = document.getElementById('success-message');
-        if (successMessage) {
-            successMessage.style.display = 'none';
-
-            <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') : ?>
-                successMessage.style.display = 'block';
-
-                setTimeout(function() {
-                    successMessage.style.display = 'none';
-                }, 6000);
-            <?php endif; ?>
-        }
-    });
-</script>
 </body>
 </html>

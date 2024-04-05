@@ -1,6 +1,7 @@
 <?php
 include_once 'reservering.php';
 include_once '../navbar/navbar.php';
+include_once '../reservering/view-reservering.php';
 $resevering = new Reservering($myDb);
 
 $klanten = $myDb->execute("SELECT * FROM klant")->fetchAll();
@@ -23,8 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo 'Error: ' . $e->getMessage();
     }
 }
-
-$reserveringen = $resevering->getAlleReserveringen();
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -47,42 +46,6 @@ $reserveringen = $resevering->getAlleReserveringen();
     </style>
 </head>
 <body>
-    <h1>Reserveringen Overzicht</h1>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Reservering ID</th>
-                <th scope="col">Klant naam</th>
-                <th scope="col">Tafelnummer</th>
-                <th scope="col">Datum</th>
-                <th scope="col">Tijd</th>
-                <th scope="col">Aantal personen</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($reserveringen as $reservering) : ?>
-                <tr>
-                    <td><?php echo $reservering['reservering_id']; ?></td>
-                    <td><?php
-                        $klantId = $reservering['klant_id'];
-                        $klantName = "";
-                        foreach ($klanten as $klant) {
-                            if ($klant['klant_id'] == $klantId) {
-                                $klantName = $klant['naam'];
-                                break;
-                            }
-                        }
-                        echo $klantName;
-                    ?></td>
-                    <td><?php echo $reservering['tafel_id']; ?></td>
-                    <td><?php echo $reservering['datum']; ?></td>
-                    <td><?php echo $reservering['tijd']; ?></td>
-                    <td><?php echo $reservering['aantal_personen']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table><br><br>
-
     <h1 style="text-align: center;">Reservering toevoegen</h1>
     <form action="" method="post">
         <label for="klant" style="font-size: 25px;">Klant</label>

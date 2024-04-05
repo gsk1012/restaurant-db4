@@ -1,6 +1,7 @@
 <?php
 include_once 'bestelling.php';
 include_once '../navbar/navbar.php';
+include_once '../bestelling/view-bestelling.php';
 $bestelling = new Bestelling($myDb);
 
 $tafels = $myDb->execute("SELECT * FROM tafel")->fetchAll();
@@ -35,8 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo 'Error: ' . $e->getMessage();
     }
 }
-
-$bestellingen = $bestelling->getAlleBestellingen();
 ?>
 
 <!DOCTYPE html>
@@ -60,40 +59,6 @@ $bestellingen = $bestelling->getAlleBestellingen();
     </style>
 </head>
 <body>
-<h1>Bestellingen Overzicht</h1>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Bestelling ID</th>
-                <th scope="col">Tafelnummer</th>
-                <th scope="col">Product naam</th>
-                <th scope="col">Aantal</th>
-                <th scope="col">Opmerking</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($bestellingen as $bestelling) : ?>
-                <tr>
-                    <td><?php echo $bestelling['bestelling_id']; ?></td>
-                    <td><?php echo $bestelling['tafel_id']; ?></td>
-                    <td><?php
-                        $productId = $bestelling['product_id'];
-                        $productName = "";
-                        foreach ($producten as $product) {
-                            if ($product['product_id'] == $productId) {
-                                $productName = $product['naam'];
-                                break;
-                            }
-                        }
-                        echo $productName;
-                    ?></td>
-                    <td><?php echo $bestelling['aantal']; ?></td>
-                    <td><?php echo $bestelling['opmerking']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table><br><br>
-    <br>
     <h1 style="text-align: center;">Plaats een bestelling</h1>
 
     <form action="" method="post" onsubmit="return validateForm()">
@@ -122,10 +87,10 @@ $bestellingen = $bestelling->getAlleBestellingen();
 
         <input class="btn btn-primary" name="submit" type="submit" value="Toevoegen">
     </form>
+
     <div id="success-message" style="display: none; text-align: center;">
         <h1 style="color: green;">Bestelling succesvol geplaatst</h1>
     </div>
-
     <script>
         function validateForm() {
             var selectedTafel = document.getElementById('tafel').value;
@@ -142,22 +107,22 @@ $bestellingen = $bestelling->getAlleBestellingen();
             // }
 
             // return true;
-
-            document.addEventListener("DOMContentLoaded", function() {
-            const successMessage = document.getElementById('success-message');
-            if (successMessage) {
-                successMessage.style.display = 'none';
-
-                <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') : ?>
-                    successMessage.style.display = 'block';
-
-                    setTimeout(function() {
-                        successMessage.style.display = 'none';
-                    }, 6000);
-                <?php endif; ?>
-            }
-        });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+        const successMessage = document.getElementById('success-message');
+        if (successMessage) {
+            successMessage.style.display = 'none';
+
+            <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') : ?>
+                successMessage.style.display = 'block';
+
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 6000);
+            <?php endif; ?>
+        }
+    });
 
     </script>
 </body>

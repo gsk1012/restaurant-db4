@@ -1,12 +1,15 @@
 <?php
 include_once 'klant.php';
 include_once '../navbar/navbar.php';
-include_once '../klant/view-klant.php';
 $klant = new Klant($myDb);
+
+$klant_id = $_GET['id'];
+$huidige_klant = $klant->getKlantById($klant_id);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
-        $klant->insertKlant($_POST['naam'], $_POST['email']);
+        $klant->editKlant($klant_id, $_POST['naam'], $_POST['email']);
+        header('Location: insert-klant.php');
     } catch (Exception $e) {
         echo 'Error: ' . $e->getMessage();
     }
@@ -47,33 +50,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Klant toevoegen</h1>
+    <h1 style="text-align: center;">Klant bewerken</h1>
     <form action="" method="post">
         <label for="naam" style="font-size: 25px;">Naam</label><br>
-        <input class="form-control" type="text" name="naam"><br>
+        <input class="form-control" type="text" name="naam" value="<?php echo $huidige_klant['naam']; ?>"><br>
         <label for="email" style="font-size: 25px;">Email</label>
-        <input class="form-control" type="email" name="email"><br>
-        <input class="btn btn-primary" name="submit" type="submit" value="Toevoegen">
+        <input class="form-control" type="email" name="email" value="<?php echo $huidige_klant['email']; ?>"><br>
+        <input class="btn btn-primary" name="submit" type="submit" value="Bewerken">
     </form>
-
-    <div id="success-message" style="display: none; text-align: center;">
-        <h1 style="color: green;">Klant succesvol toegevoegd!</h1>
-    </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const successMessage = document.getElementById('success-message');
-        if (successMessage) {
-            successMessage.style.display = 'none';
-
-            <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') : ?>
-                successMessage.style.display = 'block';
-
-                setTimeout(function() {
-                    successMessage.style.display = 'none';
-                }, 6000);
-            <?php endif; ?>
-        }
-    });
-</script>
 </body>
 </html>

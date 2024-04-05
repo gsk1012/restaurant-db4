@@ -61,7 +61,7 @@
             <a class="nav-link" href="../tafel/insert-tafel.php">Tafels</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Rekening</a>
+            <a class="nav-link" href="../rekening/rekening-overzicht.php">Rekening</a>
           </li>
       </div>
     </div>

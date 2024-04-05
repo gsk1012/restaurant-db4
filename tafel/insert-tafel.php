@@ -1,6 +1,7 @@
 <?php
 include_once 'tafel.php';
 include_once '../navbar/navbar.php';
+include_once '../tafel/view-tafel.php';
 $tafel = new Tafel($myDb);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -10,8 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo 'Error: ' . $e->getMessage();
     }
 }
-
-$tafels = $tafel->getAlleTafels();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,26 +44,7 @@ $tafels = $tafel->getAlleTafels();
         }
     </style>
 </head>
-<body><br>
-    <h1>Tafel Overzicht</h1>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Tafel ID</th>
-                <th scope="col">Tafelnummer</th>
-                <th scope="col">Beschikbaarheid</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($tafels as $tafel) : ?>
-                <tr>
-                    <td><?php echo $tafel['tafel_id']; ?></td>
-                    <td><?php echo $tafel['tafelnummer']; ?></td>
-                    <td><?php echo $tafel['status']; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table><br><br>
+<body>
     <h1 style="text-align: center;">Tafel toevoegen</h1>
     <form action="" method="post">
         <label for="tafelnummer" style="font-size: 25px;">Tafelnummer</label><br>

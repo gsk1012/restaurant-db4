@@ -19,6 +19,16 @@ class Product {
         return $products;
     }
 
+    public function getProductById($product_id) {
+        $stmt = $this->dbh->execute("SELECT * FROM product WHERE product_id = ?", [$product_id]);
+        $product_id = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $product_id;
+    }
+
+    public function editProduct($product_id, $naam, $prijs, $beschrijving) {
+        return $this->dbh->execute("UPDATE product SET naam = ?, prijs = ?, beschrijving = ? WHERE product_id = ?", [$naam, $prijs,$beschrijving, $product_id]);
+    }
+
     public function deleteProduct($product_id) {
         return $this->dbh->execute("DELETE FROM product WHERE product_id = ?", [$product_id]);
     }
